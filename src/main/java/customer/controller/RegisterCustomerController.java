@@ -1,5 +1,6 @@
 package customer.controller;
 
+import customer.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import customer.repository.entity.Customer;

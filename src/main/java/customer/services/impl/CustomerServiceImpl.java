@@ -1,5 +1,6 @@
 package customer.services.impl;
 
+import customer.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,17 +12,23 @@ import customer.repository.entity.Customer;
  */
 @Service
 @Transactional
-public class CustomerServiceImpl {
+public class CustomerServiceImpl implements CustomerService{
+
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Override
     public Iterable<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
+
+    @Override
     public Long saveCustomer(Customer customer) {
         customerRepository.save(customer);
         return customer.getId();
     }
 
+     @Override
     public void deleteCustomer(Customer customer)
     {
         customerRepository.delete(customer);
