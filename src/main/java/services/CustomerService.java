@@ -7,4 +7,6 @@ import repository.entity.Customer;
  */
 public interface CustomerService {
     Iterable<Customer> getAllCustomers();
+    void saveCustomer(Customer customer);
+    void deleteCustomer(Customer customer);
 }
