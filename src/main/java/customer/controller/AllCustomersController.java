@@ -39,5 +39,9 @@ public class AllCustomersController {
         return c.getId();
     }
 
+    public Long putCustomer(@RequestBody Customer customer) {
+        return customerService.saveCustomer(customer);
+    }
+
 
 }
