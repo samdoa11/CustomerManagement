@@ -32,10 +32,18 @@ public class ProductControllerIntegrationTest extends AbstractControllerIntegrat
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testFindAllCustomers() throws Exception {
-        String url = String.format("http://localhost:%s/products", port);
-        List<Customer> products = (List<Customer>) restTemplate.getForObject(url, List.class);
+    public void testGetCustomer() throws Exception {
+        String url = String.format("http://localhost:%s/customer?customerId=1", port);
+        Customer customer = (Customer) restTemplate.getForObject(url, Customer.class);
 
-        Assert.assertEquals(1, products.size());
+        Assert.assertEquals(customer.getLastname(), "Sammer");
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testGetAllCustomers() throws Exception {
+        String url = String.format("http://localhost:%s/customer?customerId=1", port);
+        List<Customer> customers = (List<Customer>) restTemplate.postForObject(url, null, List.class);
+        Assert.assertEquals(customers.size(), 2);
     }
 }

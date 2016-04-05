@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -38,40 +39,12 @@ public class CustomerControllerUnitTest {
     }
 
     @Test
-    public void testFindAllProductsWithDefaultExtension() throws Exception {
-        this.mockMvc.perform(get("/products"))
+    public void testFindAllCustomersWithoutException() throws Exception {
+        this.mockMvc.perform(post("/customer"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(jsonPath("$[0].name").exists())
-                .andExpect(jsonPath("$[1].name").exists())
-                .andExpect(jsonPath("$[2].name").exists());
-    }
-
-    @Test
-    public void testFindAllProductsWithXmlExtension() throws Exception {
-        this.mockMvc.perform(get("/products.xml"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_XML))
-                .andExpect(xpath("//product[1]").exists())
-                .andExpect(xpath("//product[2]").exists())
-                .andExpect(xpath("//product[3]").exists());
-    }
-
-    @Test
-    public void testFindAllProductsWithJsonExtension() throws Exception {
-        this.mockMvc.perform(get("/products.json"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(jsonPath("$[0].name").exists())
-                .andExpect(jsonPath("$[1].name").exists())
-                .andExpect(jsonPath("$[2].name").exists());
-    }
-
-
-    @Test
-    public void testFindAllProductsWithTxtExtension() throws Exception {
-        this.mockMvc.perform(get("/products.txt"))
-                .andExpect(status().isNotAcceptable());
+                .andExpect(jsonPath("$[0].lastname").exists())
+                .andExpect(jsonPath("$[1].lastname").exists());
     }
 
 }

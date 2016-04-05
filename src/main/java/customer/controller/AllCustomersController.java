@@ -50,7 +50,7 @@ public class AllCustomersController {
         }
 
     }
-
+/*
     @RequestMapping(value="/customer", method=RequestMethod.DELETE)
     public ResponseEntity readCustomer(@RequestBody Customer customer)
     {
@@ -74,7 +74,7 @@ public class AllCustomersController {
             customerService.updateCustomer(customer);
             return ResponseEntity.ok().build();
         }
-    }
+    }*/
 
     @RequestMapping(value="/customer", method=RequestMethod.PUT)
     public ResponseEntity putCustomer(@RequestBody Customer customer) {
