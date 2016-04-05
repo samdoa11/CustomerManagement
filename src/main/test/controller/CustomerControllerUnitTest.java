@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 @ActiveProfiles("dev")
-public class ProductControllerUnitTest {
+public class CustomerControllerUnitTest {
 
     @Autowired
     private WebApplicationContext wac;
