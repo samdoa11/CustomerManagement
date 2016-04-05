@@ -6,10 +6,7 @@ import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.http.HttpTester;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Dominik on 01.03.2016.
@@ -48,6 +45,15 @@ public class AllCustomersController {
         }
         long id = customerService.saveCustomer(customer);
         return ResponseEntity.ok(id);
+    }
+
+    @RequestMapping(value="/customer", method=RequestMethod.GET)
+    public ResponseEntity getCustomers(@RequestParam("customerId") int custId) {
+        if (custId < 0) return ResponseEntity.noContent().build();
+        Customer customer = customerService.getCustomerWithId(custId);
+        if (customer == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(customer);
     }
 
 
