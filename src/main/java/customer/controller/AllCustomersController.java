@@ -2,14 +2,14 @@ package customer.controller;
 
 import customer.repository.entity.Customer;
 import customer.services.CustomerService;
-import org.eclipse.jetty.http.HttpStatus;
-import org.eclipse.jetty.http.HttpTester;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.LinkedList;
 
 /**
  * Created by Dominik on 01.03.2016.
@@ -22,22 +22,61 @@ public class AllCustomersController {
     private CustomerService customerService;
 
     @RequestMapping(value="/customer", method= RequestMethod.POST)
-    public Iterable<Customer> readAll(){
-        return  customerService.getAllCustomers();
+    public ResponseEntity readAll(){
+        return  ResponseEntity.ok(customerService.getAllCustomers());
 
     }
 
 
     @RequestMapping(value="/customer", method=RequestMethod.DELETE)
-    public void deleteCustomer(@RequestBody Customer customer)
+    public ResponseEntity deleteCustomer(@RequestBody Customer customer)
     {
-        customerService.deleteCustomer(customer);
+        if (customer == null || customer.getUsername() == null || customer.getUsername()=="" ||
+                customer.getLastname() == null || customer.getLastname() == "") {
+            return ResponseEntity.noContent().build();
+        }
+        LinkedList<Customer> ll= (LinkedList<Customer>) customerService.getAllCustomers();
+        boolean found = false;
+        for(Customer c:ll)
+        {
+            if(customer.getId().equals(c.getId()))
+                found=true;
+
+        }
+        if(found==false)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        else {
+            customerService.deleteCustomer(customer);
+            return ResponseEntity.ok().build();
+        }
+
     }
 
-    public Long readCustomer(@RequestBody Customer c)
+    @RequestMapping(value="/customer", method=RequestMethod.DELETE)
+    public ResponseEntity readCustomer(@RequestBody Customer customer)
     {
-        customerService.updateCustomer(c);
-        return c.getId();
+        if (customer == null || customer.getUsername() == null || customer.getUsername()=="" ||
+                customer.getLastname() == null || customer.getLastname() == "") {
+            return ResponseEntity.noContent().build();
+        }
+        LinkedList<Customer> ll= (LinkedList<Customer>) customerService.getAllCustomers();
+        boolean found = false;
+        for(Customer c:ll)
+        {
+            if(customer.getId().equals(c.getId()))
+                found=true;
+
+        }
+        if(found==false)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        else {
+            customerService.updateCustomer(customer);
+            return ResponseEntity.ok().build();
+        }
     }
 
     @RequestMapping(value="/customer", method=RequestMethod.PUT)
