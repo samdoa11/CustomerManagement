@@ -28,5 +28,16 @@ public class DemoConfigurer {
         customer.setStrasse("Dorfstrasse");
         customer.setUsername("da_domi");
         customerRepository.save(customer);
+
+        customer = new Customer();
+        customer.setBirthdate(new Date(2010, 01,01));
+        customer.setFistname("sdf");
+        customer.setLastname("sdf");
+        customer.setOrt("asdf");
+        customer.setPassword("2234");
+        customer.setPlz(2222);
+        customer.setStrasse("Dorsdfstrasse");
+        customer.setUsername("aaaaaa");
+        customerRepository.save(customer);
     }
 }
