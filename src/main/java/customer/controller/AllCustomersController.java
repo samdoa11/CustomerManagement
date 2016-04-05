@@ -2,7 +2,10 @@ package customer.controller;
 
 import customer.repository.entity.Customer;
 import customer.services.CustomerService;
+import org.eclipse.jetty.http.HttpStatus;
+import org.eclipse.jetty.http.HttpTester;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +23,6 @@ public class AllCustomersController {
 
     @RequestMapping(value="/customer", method= RequestMethod.POST)
     public Iterable<Customer> readAll(){
-
         return  customerService.getAllCustomers();
 
     }
@@ -32,15 +34,20 @@ public class AllCustomersController {
         customerService.deleteCustomer(customer);
     }
 
-    @RequestMapping(value="/customer", method=RequestMethod.PUT)
     public Long readCustomer(@RequestBody Customer c)
     {
         customerService.updateCustomer(c);
         return c.getId();
     }
 
-    public Long putCustomer(@RequestBody Customer customer) {
-        return customerService.saveCustomer(customer);
+    @RequestMapping(value="/customer", method=RequestMethod.PUT)
+    public ResponseEntity putCustomer(@RequestBody Customer customer) {
+        if (customer == null || customer.getUsername() == null || customer.getUsername()=="" ||
+                customer.getLastname() == null || customer.getLastname() == "") {
+            return ResponseEntity.noContent().build();
+        }
+        long id = customerService.saveCustomer(customer);
+        return ResponseEntity.ok(id);
     }
 
 
