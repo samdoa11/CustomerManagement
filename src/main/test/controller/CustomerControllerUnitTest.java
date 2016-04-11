@@ -1,12 +1,16 @@
 package controller;
 
+import com.google.gson.Gson;
 import customer.Application;
 import customer.controller.AllCustomersController;
 import customer.repository.entity.Customer;
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
@@ -63,7 +67,10 @@ public class CustomerControllerUnitTest {
         customer.setStrasse("sdf");
         customer.setUsername("vroni");
 
-        this.mockMvc.perform(put("/customer", customer))
+        Gson gson = new Gson();
+
+        this.mockMvc.perform(put("/customer").contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(gson.toJson(customer)).accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$[0]").exists());
