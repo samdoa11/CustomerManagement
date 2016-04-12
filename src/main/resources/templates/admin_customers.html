@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>All Customers</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"></link>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"></link>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="../js/CustomerDelete.js" th:src="@{/js/CustomerDelete.js}"></script>
+</head>
+<body>
+<div id="tableUser">
+    <table class="table">
+        <tr>
+            <th>Account</th>
+            <th>Löschen</th>
+        </tr>
+        <tr th:each="customer : ${customers}" border="1">
+            <td>
+                <p th:text="${customer.username}"
+                ></p>
+            </td>
+            <td>
+                <button class="btn btn-danger" th:onclick="'deleteCustomer(' + ${customer.id} + ',\'' +  ${customer.fistname} + '\',\'' + ${customer.username}
+                 +'\',\'' + ${customer.lastname} + '\')'">Konto löschen</button>
+            </td>
+        </tr>
+    </table>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</div>
+</body>
+</html>
