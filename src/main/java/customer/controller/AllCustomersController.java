@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -32,7 +33,7 @@ public class AllCustomersController {
                 customer.getLastname() == null || customer.getLastname() == "") {
             return ResponseEntity.noContent().build();
         }
-        LinkedList<Customer> ll= (LinkedList<Customer>) customerService.getAllCustomers();
+        Iterable<Customer> ll= customerService.getAllCustomers();
         boolean found = false;
         for(Customer c:ll)
         {
