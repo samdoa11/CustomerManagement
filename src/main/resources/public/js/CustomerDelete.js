@@ -18,6 +18,8 @@ function deleteCustomer(id, firstname, username, lastname, strasse, plz, ort, bi
         location.href="http://localhost:8080/customer/admin";
     }
 
+    if (!confirm("Are you sure?")) return null;
+
     var json = JSON.stringify(customer);
     console.log(json);
     $.ajax({
@@ -26,7 +28,10 @@ function deleteCustomer(id, firstname, username, lastname, strasse, plz, ort, bi
         data: json,
         dataType: "json",
         type: "DELETE",
-    }).done(function() {
-        location.href="http://localhost:8080/customer/admin";
+        statusCode: {
+            200: function() {
+                location.href="http://localhost:8080/customer/admin"; },
+            404: function() { alert("Customer not found!"); }
+            }
     });
 }
