@@ -17,14 +17,15 @@
 </head>
 <body>
 <div id="tableUser">
-    <table class="table">
+    <h1>Your customers</h1>
+    <table class="table" style="width: 40%">
         <tr>
             <th>Account</th>
             <th>Löschen</th>
         </tr>
         <tr th:each="customer : ${customers}" border="1">
             <td>
-                <p th:text="${customer.username}"
+                <p th:text="${customer.fistname} + ' ' + ${customer.lastname}"
                 ></p>
             </td>
             <td>
