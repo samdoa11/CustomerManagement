@@ -20,7 +20,7 @@ public class DemoConfigurer {
     public void createDemoData() {
        Customer customer = new Customer();
         customer.setBirthdate(new Date(2010, 01,01));
-        customer.setFistname("Domi");
+        customer.setFirstname("Domi");
         customer.setLastname("Sammer");
         customer.setOrt("Leibnitz");
         customer.setPassword("1234");
@@ -31,7 +31,7 @@ public class DemoConfigurer {
 
         customer = new Customer();
         customer.setBirthdate(new Date(2010, 01,01));
-        customer.setFistname("sdf");
+        customer.setFirstname("sdf");
         customer.setLastname("sdf");
         customer.setOrt("asdf");
         customer.setPassword("2234");

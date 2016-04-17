@@ -18,7 +18,7 @@ public class Customer implements Serializable{
     private Long id;
 
     @Column
-    private String fistname;
+    private String firstname;
 
     @Column
     private String lastname;
@@ -49,12 +49,12 @@ public class Customer implements Serializable{
         this.id = id;
     }
 
-    public String getFistname() {
-        return fistname;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFistname(String fistname) {
-        this.fistname = fistname;
+    public void setFirstname(String fistname) {
+        this.firstname = fistname;
     }
 
     public String getLastname() {
