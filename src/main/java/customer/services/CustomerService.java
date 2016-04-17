@@ -6,8 +6,5 @@ public interface CustomerService {
     Iterable<Customer> getAllCustomers();
     Long saveCustomer(Customer customer);
     void deleteCustomer(Customer customer);
-
-    void updateCustomer(Customer c);
-
     Customer getCustomerWithId(long custId);
 }

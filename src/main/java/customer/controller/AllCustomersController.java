@@ -52,31 +52,6 @@ public class AllCustomersController {
         }
 
     }
-/*
-    @RequestMapping(value="/customer", method=RequestMethod.DELETE)
-    public ResponseEntity readCustomer(@RequestBody Customer customer)
-    {
-        if (customer == null || customer.getUsername() == null || customer.getUsername()=="" ||
-                customer.getLastname() == null || customer.getLastname() == "") {
-            return ResponseEntity.noContent().build();
-        }
-        LinkedList<Customer> ll= (LinkedList<Customer>) customerService.getAllCustomers();
-        boolean found = false;
-        for(Customer c:ll)
-        {
-            if(customer.getId().equals(c.getId()))
-                found=true;
-
-        }
-        if(found==false)
-        {
-            return ResponseEntity.notFound().build();
-        }
-        else {
-            customerService.updateCustomer(customer);
-            return ResponseEntity.ok().build();
-        }
-    }*/
 
     @RequestMapping(value="/customer", method=RequestMethod.PUT)
     public ResponseEntity putCustomer(@RequestBody Customer customer) {

@@ -24,6 +24,7 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public Long saveCustomer(Customer customer) {
+        //to update customer with ID it was only neccesary to overwrite the equals method in customer.
         customerRepository.save(customer);
         return customer.getId();
     }
@@ -34,11 +35,6 @@ public class CustomerServiceImpl implements CustomerService{
         customerRepository.delete(customer);
     }
 
-    @Override
-    public void updateCustomer(Customer customer) {
-        customerRepository.delete(customer.getId());
-        customerRepository.save(customer);
-    }
 
     @Override
     public Customer getCustomerWithId(long custId) {
