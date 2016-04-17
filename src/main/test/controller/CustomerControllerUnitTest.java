@@ -3,6 +3,7 @@ package controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import customer.Application;
+import customer.CustomerBuilder;
 import customer.controller.AllCustomersController;
 import customer.repository.entity.Customer;
 import net.minidev.json.JSONObject;
@@ -60,7 +61,7 @@ public class CustomerControllerUnitTest {
 
     @Test
     public void testDeleteExistingCustomer() throws Exception {
-        Customer customer = createExistingCustomer();
+        Customer customer = CustomerBuilder.createCustomer1();
         JSONObject obj = createJsonWithCustomer(customer);
 
         this.mockMvc.perform(delete("/customer").contentType(MediaType.APPLICATION_JSON).content(obj.toJSONString()))
@@ -74,7 +75,7 @@ public class CustomerControllerUnitTest {
 
     @Test
     public void testPutCustomerWithCorrectCustomer() throws Exception {
-        Customer customer = createDummyCustomer();
+        Customer customer = CustomerBuilder.createDummyCustomer();
         customer.setId(10L);
         JSONObject obj = createJsonWithCustomer(customer);
         String json = obj.toJSONString();
@@ -88,7 +89,7 @@ public class CustomerControllerUnitTest {
 
     @Test
     public void testPutCustomerNoContent() throws Exception {
-        Customer customer = createDummyCustomer();
+        Customer customer = CustomerBuilder.createDummyCustomer();
         customer.setUsername("");
         JSONObject obj = createJsonWithCustomer(customer);
         String json = obj.toJSONString();
@@ -118,8 +119,9 @@ public class CustomerControllerUnitTest {
 
     @Test
     public void testUpdateCustomer() throws Exception {
-        Customer customer = createExistingCustomer();
-
+        Customer customer = CustomerBuilder.createCustomer1();
+        customer.setFirstname("Any Name");
+        customer.setLastname("Any Lastname");
         JSONObject object = createJsonWithCustomer(customer);
         MvcResult result = this.mockMvc.perform(put("/customer").contentType(MediaType.APPLICATION_JSON)
                 .content(object.toJSONString()))
@@ -129,23 +131,10 @@ public class CustomerControllerUnitTest {
         Long id = Long.parseLong(result.getResponse().getContentAsString());
         this.mockMvc.perform(get("/customer?customerId=" + id)).andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(mvcResult -> jsonPath("$.firstname").equals("Domi1"))
-                .andExpect(mvcResult -> jsonPath("$.lastname").equals("SammerS"));
+                .andExpect(mvcResult -> jsonPath("$.firstname").equals(customer.getFirstname()))
+                .andExpect(mvcResult -> jsonPath("$.lastname").equals(customer.getLastname()));
     }
 
-    private Customer createExistingCustomer() {
-        Customer customer = new Customer();
-        customer.setBirthdate(new Date(2010, 01,01));
-        customer.setId(1L);
-        customer.setFirstname("Domi1");
-        customer.setLastname("SammerS");
-        customer.setOrt("Leibnitz");
-        customer.setPassword("1234");
-        customer.setPlz(8430);
-        customer.setStrasse("Dorfstrasse");
-        customer.setUsername("da_domi");
-        return customer;
-    }
 
     private JSONObject createJsonWithCustomer(Customer customer) {
         JSONObject obj = new JSONObject();
@@ -159,19 +148,6 @@ public class CustomerControllerUnitTest {
         obj.put("birthdate", customer.getBirthdate().getTime());
         obj.put("password", customer.getPassword());
         return obj;
-    }
-
-    private Customer createDummyCustomer() {
-        Customer customer = new Customer();
-        customer.setBirthdate(new Date(2010, 01,01));
-        customer.setFirstname("Vroni");
-        customer.setLastname("Geo");
-        customer.setOrt("sdf");
-        customer.setPassword("sdf");
-        customer.setPlz(11111);
-        customer.setStrasse("sdf");
-        customer.setUsername("vroni");
-        return customer;
     }
 
 }

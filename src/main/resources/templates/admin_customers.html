@@ -25,11 +25,11 @@
         </tr>
         <tr th:each="customer : ${customers}" border="1">
             <td>
-                <p th:text="${customer.fistname} + ' ' + ${customer.lastname}"
+                <p th:text="${customer.firstname} + ' ' + ${customer.lastname}"
                 ></p>
             </td>
             <td>
-                <button class="btn btn-danger" th:onclick="'deleteCustomer(' + ${customer.id} + ',\'' +  ${customer.fistname} + '\',\'' + ${customer.username}
+                <button class="btn btn-danger" th:onclick="'deleteCustomer(' + ${customer.id} + ',\'' +  ${customer.firstname} + '\',\'' + ${customer.username}
                  +'\',\'' + ${customer.lastname} + '\',\'' + ${customer.strasse} + '\',' + ${customer.plz} + ', \'' + ${customer.ort} + '\',\'' + ${customer.birthdate} + '\')'">Konto löschen</button>
             </td>
         </tr>

@@ -18,26 +18,10 @@ public class DemoConfigurer {
 
     @PostConstruct
     public void createDemoData() {
-       Customer customer = new Customer();
-        customer.setBirthdate(new Date(2010, 01,01));
-        customer.setFirstname("Domi");
-        customer.setLastname("Sammer");
-        customer.setOrt("Leibnitz");
-        customer.setPassword("1234");
-        customer.setPlz(8430);
-        customer.setStrasse("Dorfstrasse");
-        customer.setUsername("da_domi");
+       Customer customer = CustomerBuilder.createCustomer1();
         customerRepository.save(customer);
 
-        customer = new Customer();
-        customer.setBirthdate(new Date(2010, 01,01));
-        customer.setFirstname("sdf");
-        customer.setLastname("sdf");
-        customer.setOrt("asdf");
-        customer.setPassword("2234");
-        customer.setPlz(2222);
-        customer.setStrasse("Dorsdfstrasse");
-        customer.setUsername("aaaaaa");
+        customer = CustomerBuilder.createCustomer2();
         customerRepository.save(customer);
     }
 }
