@@ -26,9 +26,7 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -61,8 +59,23 @@ public class CustomerControllerUnitTest {
     }
 
     @Test
+    public void testDeleteExistingCustomer() throws Exception {
+        Customer customer = createExistingCustomer();
+        JSONObject obj = createJsonWithCustomer(customer);
+
+        this.mockMvc.perform(delete("/customer").contentType(MediaType.APPLICATION_JSON).content(obj.toJSONString()))
+                .andExpect(status().isOk());
+        MvcResult result = this.mockMvc.perform(post("/customer"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8")).andReturn();
+
+        Assert.assertThat(result.getResponse().getContentAsString().contains(obj.toJSONString()), equalTo(false));
+    }
+
+    @Test
     public void testPutCustomerWithCorrectCustomer() throws Exception {
         Customer customer = createDummyCustomer();
+        customer.setId(10L);
         JSONObject obj = createJsonWithCustomer(customer);
         String json = obj.toJSONString();
         MvcResult result = this.mockMvc.perform(put("/customer").contentType(MediaType.APPLICATION_JSON)
@@ -103,10 +116,40 @@ public class CustomerControllerUnitTest {
         this.mockMvc.perform(get("/customer?customerId=-1")).andExpect(status().isNoContent());
     }
 
+    @Test
+    public void testUpdateCustomer() throws Exception {
+        Customer customer = createExistingCustomer();
+
+        JSONObject object = createJsonWithCustomer(customer);
+        MvcResult result = this.mockMvc.perform(put("/customer").contentType(MediaType.APPLICATION_JSON)
+                .content(object.toJSONString()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andReturn();
+        Long id = Long.parseLong(result.getResponse().getContentAsString());
+        this.mockMvc.perform(get("/customer?customerId=" + id)).andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(mvcResult -> jsonPath("$.firstname").equals("Domi1"))
+                .andExpect(mvcResult -> jsonPath("$.lastname").equals("SammerS"));
+    }
+
+    private Customer createExistingCustomer() {
+        Customer customer = new Customer();
+        customer.setBirthdate(new Date(2010, 01,01));
+        customer.setId(1L);
+        customer.setFirstname("Domi1");
+        customer.setLastname("SammerS");
+        customer.setOrt("Leibnitz");
+        customer.setPassword("1234");
+        customer.setPlz(8430);
+        customer.setStrasse("Dorfstrasse");
+        customer.setUsername("da_domi");
+        return customer;
+    }
 
     private JSONObject createJsonWithCustomer(Customer customer) {
         JSONObject obj = new JSONObject();
-        obj.put("id", 10);
+        obj.put("id", customer.getId());
         obj.put("firstname", customer.getFirstname());
         obj.put("lastname", customer.getLastname());
         obj.put("username", customer.getUsername());
